@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ef25d123b9ca424fa9e37dd90a635b34" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.DichVu" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.DonDatPhong" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.KhachHang" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.LoaiPhong" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.Phong" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.YKienKhachHang" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_DonDatPhong_KhachHang" ManuallyRouted="false" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_DonDatPhong_Phong" ManuallyRouted="false" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_Phong_LoaiPhong" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.TT_DonDatPhong" Width="1.5" PointX="3" PointY="13.25" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.TT_Phong" Width="1.5" PointX="0.75" PointY="6.125" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_DonDatPhong_TT_DonDatPhong" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_Phong_TT_Phong" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.ChucVuAdmin" Width="1.5" PointX="6.25" PointY="12.375" />
+        <EntityTypeShape EntityType="DatPhongKhachSanModel.tblAdmin01" Width="1.5" PointX="2.625" PointY="16.375" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_Admin_ChucVuAdmin2" />
+        <AssociationConnector Association="DatPhongKhachSanModel.FK_DonDatPhong_Admin2" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,90 @@
+﻿@model IEnumerable<DatPhongKhachSan.Models.Phong>
+
+@{
+    ViewBag.Title = "Danh sách phòng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Index")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Danh sách phòng</li>
+</ol>
+<p>
+    @Html.ActionLink("Thêm phòng", "Create")
+</p>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Danh sách phòng
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            @Html.DisplayName("Số phòng")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Loại phòng")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Gia phòng")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Số người")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Giuong")
+                        </th>
+
+                      
+                        @if (Session["AD"] != null && ((DatPhongKhachSan.Models.tblAdmin01)Session["AD"]).MaCV <= 1)
+                        {
+                            <th></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SoP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoaiPhong.TenLP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GiaP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SoNguoi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Giuong)
+                            </td>
+                          
+
+                            @if (Session["AD"] != null && ((DatPhongKhachSan.Models.tblAdmin01)Session["AD"]).MaCV <= 1)
+
+                            {
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.MaP }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.MaP })
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at @DateTime.Now</div>
+</div>
+
