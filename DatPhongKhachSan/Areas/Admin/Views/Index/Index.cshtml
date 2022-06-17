@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-4"><div class="alert alert-success">Có @ViewBag.so_phong_trong phòng đang trống</div></div>
         <div class="col-md-4"><div class="alert alert-danger">Có @ViewBag.so_phong_sd phòng đang được sử dụng</div></div>
-        <div class="col-md-4"><div class="alert alert-warning">Có @ViewBag.so_phong_don phòng đang dọn</div></div>
+        <div class="col-md-4"><div class="alert alert-warning">Có @ViewBag.so_phong_don phòng dừng hoạt động</div></div>
     </div>
 </div>
 <div class="card mb-3">
@@ -34,6 +34,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Số phòng</th>
+                        <th>Tên loại phòng</th>
                         <th>Loại phòng</th>
                         <th>Giá</th>
                         <th>Tình trạng</th>
@@ -44,37 +45,31 @@
                     @foreach (var item in Model)
                     {
 
-                        <tr>
-                            <td>@item.MaP</td>
-                            <td>@item.SoP</td>
-                            <td>@item.LoaiPhong.MoTa</td>
-                            <td>@item.GiaP / Ngày</td>
+                    <tr>
+                        <td>@item.MaP</td>
+                        <td>@item.SoP</td>
+                        <td>@item.LoaiPhong.TenLP</td>
+                        <td>@item.LoaiPhong.MoTa</td>
+                        <td>@item.GiaP / Ngày</td>
 
 
-                            @if (item.MaTinhTrang == 1)
-                            {
-                                <td><span class="badge badge-success badge-g">@item.TT_Phong.TenTinhTrang</span></td>
-                                <td></td>
-                            }
-                            else if (item.MaTinhTrang == 2)
-                            {
-                                <td><span class="badge badge-danger badge-g">>@item.TT_Phong.TenTinhTrang</span></td>
-                                <td>
-                                    <a href="@Url.Action("FindHdById","Index",new { id = @item.MaP })"><div class="btn btn-danger badge-g">Phòng đã đặt</div></a>
-                                    <a href="@Url.Action("FindHdById2","Index",new { id = @item.MaP })" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Gọi DV</a>
-                                </td>
-                            }
-                            else if (item.MaTinhTrang == 3)
-                            {
-                                <td><span class="badge badge-warning badge-g">@item.TT_Phong.TenTinhTrang</span></td>
-                                <td><a href="@Url.Action("DonPhongXong","Index",new { id = @item.MaP })"><div class="btn btn-warning badge-g">Phòng dừng hoạt động</div></a></td>
-                            }
-                            else
-                            {
-                                <td><span class="badge badge-info badge-g">@item.TT_Phong.TenTinhTrang</span></td>
-                                <td><a href="@Url.Action("DonPhongXong","Index",new { id = @item.MaP })"><div class="btn btn-info badge-g">Bảo trì xong</div></a></td>
-                            }
-                        </tr>
+                        @if (item.MaTinhTrang == 1)
+                        {
+                            <td><span class="badge badge-success badge-g">@item.TT_Phong.TenTinhTrang</span></td>
+                            <td></td>
+                        }
+                        else if (item.MaTinhTrang == 2)
+                        {
+                            <td><span class="badge badge-danger badge-g">>@item.TT_Phong.TenTinhTrang</span></td>
+
+                        }
+                        else if (item.MaTinhTrang == 3)
+                        {
+                            <td><span class="badge badge-warning badge-g">@item.TT_Phong.TenTinhTrang</span></td>
+
+                        }
+
+                    </tr>
                     }
                 </tbody>
             </table>

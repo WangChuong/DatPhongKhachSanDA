@@ -16,7 +16,6 @@ namespace DatPhongKhachSan.Models
     {
         public ChucVuAdmin()
         {
-
             this.tblAdmin01 = new HashSet<tblAdmin01>();
         }
     

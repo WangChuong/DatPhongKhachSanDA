@@ -17,7 +17,7 @@ namespace DatPhongKhachSan.Areas.Admin.Controllers.Admin
         // GET: Phong
         public ActionResult Index()
         {
-            var Phong = db.Phong.Where(t=>t.MaTinhTrang<3).Include(t => t.LoaiPhong).Include(t => t.TT_Phong);
+            var Phong = db.Phong.Where(t=>t.MaTinhTrang<4).Include(t => t.LoaiPhong).Include(t => t.TT_Phong);
             return View(Phong.ToList());
         }
 

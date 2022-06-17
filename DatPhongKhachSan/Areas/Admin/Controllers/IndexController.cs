@@ -19,7 +19,7 @@ namespace DatPhongKhachSan.Areas.Admin.Controllers
         public ActionResult Index()
         {
             int so_phong_trong = 0, so_phong_sd = 0, so_phong_don = 0;
-            var listPhongs = db.Phong.Where(t=>t.MaTinhTrang<3).ToList();
+            var listPhongs = db.Phong.Where(t=>t.MaTinhTrang<4).ToList();
             foreach(var item in listPhongs)
             {
                 if (item.MaTinhTrang == 1)

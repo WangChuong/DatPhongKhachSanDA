@@ -38,6 +38,41 @@
                 </div>
             </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                @Html.Label("Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.MoTa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
             <div class="form-group">
                 @Html.Label("giá phòng", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -46,7 +81,7 @@
                 </div>
             </div>
 
-            
+
             <div class="form-group">
                 @Html.Label("Số người có thể ở", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -65,7 +100,10 @@
 
 
 
-            <div class="form-group hidden">
+
+
+
+            <div class="form-group ">
                 @Html.LabelFor(model => model.MaTinhTrang, "MaTinhTrang", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("MaTinhTrang", null, htmlAttributes: new { @class = "form-control" })

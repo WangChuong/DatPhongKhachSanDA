@@ -31,6 +31,9 @@
                             @Html.DisplayName("Loại phòng")
                         </th>
                         <th>
+                            @Html.DisplayName("Mô tả")
+                        </th>
+                        <th>
                             @Html.DisplayName("Gia phòng")
                         </th>
                         <th>
@@ -40,7 +43,7 @@
                             @Html.DisplayName("Giuong")
                         </th>
 
-                      
+
                         @if (Session["AD"] != null && ((DatPhongKhachSan.Models.tblAdmin01)Session["AD"]).MaCV <= 1)
                         {
                             <th></th>
@@ -50,36 +53,39 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                    <tr>
 
-                            <td>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SoP)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LoaiPhong.TenLP)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.GiaP)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SoNguoi)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Giuong)
-                            </td>
-                          
+                        <td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LoaiPhong.TenLP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MoTa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GiaP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoNguoi)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Giuong)
+                        </td>
 
-                            @if (Session["AD"] != null && ((DatPhongKhachSan.Models.tblAdmin01)Session["AD"]).MaCV <= 1)
 
-                            {
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.MaP }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.MaP })
-                                </td>
-                            }
-                        </tr>
+                        @if (Session["AD"] != null && ((DatPhongKhachSan.Models.tblAdmin01)Session["AD"]).MaCV <= 1)
+
+                        {
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.MaP }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.MaP })
+                            </td>
+                        }
+                    </tr>
                     }
                 </tbody>
             </table>

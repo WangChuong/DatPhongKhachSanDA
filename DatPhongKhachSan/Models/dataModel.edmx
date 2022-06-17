@@ -11,7 +11,6 @@ warning 6013: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a 
           <Property Name="MaDV" Type="int" />
           <Property Name="MaDDP" Type="int" />
           <Property Name="SoLuong" Type="int" />
-          <Property Name="MaHD" Type="int" />
         </EntityType>-->
         <EntityType Name="ChucVuAdmin">
           <Key>
