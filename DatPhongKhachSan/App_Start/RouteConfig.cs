@@ -14,7 +14,7 @@ namespace DatPhongKhachSan
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
+                name: "webkhachsan.net",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "WebKhachSan", action = "Index", id = UrlParameter.Optional }
             );
