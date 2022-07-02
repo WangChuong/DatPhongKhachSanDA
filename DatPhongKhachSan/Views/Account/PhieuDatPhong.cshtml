@@ -38,23 +38,26 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.MaDDP)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phong.SoP)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NgayDen)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NgayDi)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TT_DonDatPhong.TenTinhTrang)
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MaDDP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phong.SoP)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NgayDen)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NgayDi)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TT_DonDatPhong.TenTinhTrang)
+                        </td>
+                        <td>
+                            <a class="nav-link" href="@Url.Action("SuaPhieuDatPhong", "Account", new { id = item.MaDDP })">Sửa</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

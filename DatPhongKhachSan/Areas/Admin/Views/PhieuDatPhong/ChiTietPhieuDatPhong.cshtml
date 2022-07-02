@@ -1,0 +1,96 @@
+﻿@model DatPhongKhachSan.Models.DonDatPhong
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="@Url.Action("Index","Index")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Hóa đơn</li>
+</ol>
+<div class="card mb-1">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Hóa đơn
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            
+                @Html.AntiForgeryToken()
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.MaDDP)
+
+                            <div class="form-group">
+                                @Html.Label("Khách hàng", htmlAttributes: new { @class = "control-label col-md-8" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.KhachHang.TenKH, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.Label("Số phòng", htmlAttributes: new { @class = "control-label col-md-8" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Phong.SoP, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.Phong.SoP, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Ngày vào phòng", htmlAttributes: new { @class = "control-label col-md-8" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(m => m.NgayDen, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.NgayDen, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Ngày dự kiến trả phòng", htmlAttributes: new { @class = "control-label col-md-8" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(m => m.NgayDi, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.NgayDi, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Ngày trả phòng", htmlAttributes: new { @class = "control-label col-md-8" })
+                                <div class="col-md-10">
+                                    @Html.TextBox("NgayDi", (String)ViewBag.time_now, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.NgayDi, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                           
+                          
+                        </div>
+                    </div>
+                    
+                  
+
+                </div>
+                <hr />
+              
+
+                <div class="form-group">
+                    @Html.Label("Tổng tiền", htmlAttributes: new { @class = "control-label col-md-8" })
+                    <div class="col-md-10">
+                        @Html.TextBox("TongTien", (Double)ViewBag.TongTien, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Trạng thái", htmlAttributes: new { @class = "control-label col-md-8" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.TT_DonDatPhong.TenTinhTrang, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</div>
+<div>
+    <input type="button" value="In hóa đơn" onClick="window.print()">
+    @Html.ActionLink("Back to List", "Index")
+</div>

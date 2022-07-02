@@ -25,16 +25,17 @@ namespace DatPhongKhachSan.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<ChucVuAdmin> ChucVuAdmin { get; set; }
         public DbSet<DichVu> DichVu { get; set; }
         public DbSet<DonDatPhong> DonDatPhong { get; set; }
         public DbSet<KhachHang> KhachHang { get; set; }
         public DbSet<LoaiPhong> LoaiPhong { get; set; }
         public DbSet<Phong> Phong { get; set; }
         public DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public DbSet<YKienKhachHang> YKienKhachHang { get; set; }
+        public DbSet<tblAdmin01> tblAdmin01 { get; set; }
         public DbSet<TT_DonDatPhong> TT_DonDatPhong { get; set; }
         public DbSet<TT_Phong> TT_Phong { get; set; }
-        public DbSet<ChucVuAdmin> ChucVuAdmin { get; set; }
-        public DbSet<tblAdmin01> tblAdmin01 { get; set; }
+        public DbSet<YKienKhachHang> YKienKhachHang { get; set; }
+        public DbSet<CT_SuDungDV> CT_SuDungDV { get; set; }
     }
 }

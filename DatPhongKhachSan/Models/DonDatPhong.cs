@@ -14,19 +14,27 @@ namespace DatPhongKhachSan.Models
     
     public partial class DonDatPhong
     {
+        public DonDatPhong()
+        {
+            this.CT_SuDungDV = new HashSet<CT_SuDungDV>();
+        }
+    
         public int MaDDP { get; set; }
         public Nullable<int> MaKH { get; set; }
         public Nullable<int> MaP { get; set; }
         public Nullable<System.DateTime> NgayDen { get; set; }
         public Nullable<System.DateTime> NgayDi { get; set; }
-        public Nullable<decimal> TienCoc { get; set; }
         public string GhiChu { get; set; }
         public Nullable<int> MaTinhTrang { get; set; }
         public Nullable<int> IDTaiKhoan { get; set; }
+        public Nullable<decimal> TienPhong { get; set; }
+        public Nullable<decimal> TienDichVu { get; set; }
+        public Nullable<decimal> TongTien { get; set; }
     
+        public virtual ICollection<CT_SuDungDV> CT_SuDungDV { get; set; }
         public virtual KhachHang KhachHang { get; set; }
         public virtual Phong Phong { get; set; }
-        public virtual TT_DonDatPhong TT_DonDatPhong { get; set; }
         public virtual tblAdmin01 tblAdmin01 { get; set; }
+        public virtual TT_DonDatPhong TT_DonDatPhong { get; set; }
     }
 }

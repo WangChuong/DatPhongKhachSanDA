@@ -12,18 +12,13 @@ namespace DatPhongKhachSan.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DichVu
+    public partial class CT_SuDungDV
     {
-        public DichVu()
-        {
-            this.CT_SuDungDV = new HashSet<CT_SuDungDV>();
-        }
-    
         public int MaDV { get; set; }
-        public string TenDV { get; set; }
-        public Nullable<bool> TinhTrang { get; set; }
-        public Nullable<decimal> GiaDV { get; set; }
+        public int MaDDP { get; set; }
+        public Nullable<int> SoLuong { get; set; }
     
-        public virtual ICollection<CT_SuDungDV> CT_SuDungDV { get; set; }
+        public virtual DichVu DichVu { get; set; }
+        public virtual DonDatPhong DonDatPhong { get; set; }
     }
 }

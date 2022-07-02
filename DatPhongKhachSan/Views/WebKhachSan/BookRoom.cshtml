@@ -24,7 +24,7 @@
                         @Html.AntiForgeryToken()
                         if (ViewBag.MaP == null || ((String)ViewBag.MaP).Equals("[]"))
                         {
-                            <div class="alert alert-warning" role="alert">Bạn chưa chọn phòng để đặt. Vui lòng chọn phòng để hoàn tất phiếu đặt phòng !</div>
+                            <div class="alert alert-warning" role="alert">Bạn chưa chọn phòng. Vui lòng chọn phòng để hoàn tất việc đặt phòng !</div>
                         }
                         else
                         {
@@ -109,9 +109,7 @@
                                 <th>
                                     @Html.DisplayName("Ngày vào")
                                 </th>
-                                <th>
-                                    @Html.DisplayName("Ngày ra")
-                                </th>
+                                
                                 <th>
                                     @Html.DisplayName("Số phòng")
                                 </th>
@@ -133,9 +131,7 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.NgayDen)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NgayDi)
-                                    </td>
+                                   
 
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Phong.SoP)

@@ -75,7 +75,8 @@
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.MaDDP }) |
 
-                        @Html.ActionLink("Delete", "Delete", new { id = item.MaDDP })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MaDDP }) |
+
                     </td>
                 </tr>
 }
@@ -103,6 +104,13 @@ else if (item.MaTinhTrang == 3 || item.MaTinhTrang == 4)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TT_DonDatPhong.TenTinhTrang)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MaDDP }) |
+
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MaDDP }) |
+
+                        @Html.ActionLink("Chi tiết", "ChiTietPhieuDatPhong", new { id = item.MaDDP })
                     </td>
                 </tr>
 }
@@ -132,6 +140,7 @@ else
                         @Html.DisplayFor(modelItem => item.TT_DonDatPhong.TenTinhTrang)
                     </td>
                     <td>
+
 
                         @Html.ActionLink("Delete", "Delete", new { id = item.MaDDP })
                     </td>

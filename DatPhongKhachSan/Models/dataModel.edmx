@@ -4,14 +4,18 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DatPhongKhachSanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DatPhongKhachSanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
-warning 6013: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+warning 6002: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CT_SuDungDV">
-          <Property Name="MaDV" Type="int" />
-          <Property Name="MaDDP" Type="int" />
+          <Key>
+            <PropertyRef Name="MaDV" />
+            <PropertyRef Name="MaDDP" />
+          </Key>
+          <Property Name="MaDV" Type="int" Nullable="false" />
+          <Property Name="MaDDP" Type="int" Nullable="false" />
           <Property Name="SoLuong" Type="int" />
-        </EntityType>-->
+        </EntityType>
         <EntityType Name="ChucVuAdmin">
           <Key>
             <PropertyRef Name="MaCV" />
@@ -25,8 +29,8 @@ warning 6013: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a 
           </Key>
           <Property Name="MaDV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenDV" Type="nvarchar" MaxLength="250" />
-          <Property Name="GiaDV" Type="decimal" Precision="19" Scale="4" />
           <Property Name="TinhTrang" Type="bit" />
+          <Property Name="GiaDV" Type="money" />
         </EntityType>
         <EntityType Name="DonDatPhong">
           <Key>
@@ -37,10 +41,12 @@ warning 6013: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a 
           <Property Name="MaP" Type="int" />
           <Property Name="NgayDen" Type="date" />
           <Property Name="NgayDi" Type="date" />
-          <Property Name="TienCoc" Type="decimal" Precision="19" Scale="4" />
           <Property Name="GhiChu" Type="ntext" />
           <Property Name="MaTinhTrang" Type="int" />
           <Property Name="IDTaiKhoan" Type="int" />
+          <Property Name="TienPhong" Type="money" />
+          <Property Name="TienDichVu" Type="money" />
+          <Property Name="TongTien" Type="money" />
         </EntityType>
         <EntityType Name="KhachHang">
           <Key>
@@ -72,14 +78,12 @@ warning 6013: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a 
           <Property Name="MaP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaLP" Type="int" />
           <Property Name="SoP" Type="varchar" MaxLength="20" />
-          <Property Name="GiaP" Type="decimal" Precision="19" Scale="4" />
           <Property Name="SoNguoi" Type="int" />
           <Property Name="Giuong" Type="int" />
           <Property Name="MoTa" Type="ntext" />
           <Property Name="HinhAnh" Type="nvarchar(max)" />
-          <Property Name="Hinh1" Type="nvarchar(max)" />
-          <Property Name="Hinh2" Type="nvarchar(max)" />
           <Property Name="MaTinhTrang" Type="int" />
+          <Property Name="GiaP" Type="money" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -138,21 +142,27 @@ warning 6013: The table/view 'DatPhongKhachSan.dbo.CT_SuDungDV' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a relationship, but cannot be found.
-        <Association Name="FK_CT_SuDungDV_DichVu" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a relationship, but cannot be found.
-        <Association Name="FK_CT_SuDungDV_DonDatPhong" />-->
-        <Association Name="FK_DonDatPhong_Admin">
-          <End Role="tblAdmin01" Type="Self.tblAdmin01" Multiplicity="0..1" />
-          <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="*" />
+        <Association Name="FK_CT_SuDungDV_DichVu">
+          <End Role="DichVu" Type="Self.DichVu" Multiplicity="1" />
+          <End Role="CT_SuDungDV" Type="Self.CT_SuDungDV" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblAdmin01">
-              <PropertyRef Name="IDTaiKhoan" />
+            <Principal Role="DichVu">
+              <PropertyRef Name="MaDV" />
             </Principal>
-            <Dependent Role="DonDatPhong">
-              <PropertyRef Name="IDTaiKhoan" />
+            <Dependent Role="CT_SuDungDV">
+              <PropertyRef Name="MaDV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CT_SuDungDV_DonDatPhong">
+          <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="1" />
+          <End Role="CT_SuDungDV" Type="Self.CT_SuDungDV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DonDatPhong">
+              <PropertyRef Name="MaDDP" />
+            </Principal>
+            <Dependent Role="CT_SuDungDV">
+              <PropertyRef Name="MaDDP" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -177,6 +187,18 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
             </Principal>
             <Dependent Role="DonDatPhong">
               <PropertyRef Name="MaP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DonDatPhong_tblAdmin01">
+          <End Role="tblAdmin01" Type="Self.tblAdmin01" Multiplicity="0..1" />
+          <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAdmin01">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="DonDatPhong">
+              <PropertyRef Name="IDTaiKhoan" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -228,13 +250,24 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           <EntitySet Name="TT_DonDatPhong" EntityType="Self.TT_DonDatPhong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TT_Phong" EntityType="Self.TT_Phong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="YKienKhachHang" EntityType="Self.YKienKhachHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CT_SuDungDV" EntityType="Self.CT_SuDungDV" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[CT_SuDungDV].[MaDV] AS [MaDV], 
+[CT_SuDungDV].[MaDDP] AS [MaDDP], 
+[CT_SuDungDV].[SoLuong] AS [SoLuong]
+FROM [dbo].[CT_SuDungDV] AS [CT_SuDungDV]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Admin_ChucVuAdmin" Association="Self.FK_Admin_ChucVuAdmin">
             <End Role="ChucVuAdmin" EntitySet="ChucVuAdmin" />
             <End Role="tblAdmin01" EntitySet="tblAdmin01" />
           </AssociationSet>
-          <AssociationSet Name="FK_DonDatPhong_Admin" Association="Self.FK_DonDatPhong_Admin">
-            <End Role="tblAdmin01" EntitySet="tblAdmin01" />
+          <AssociationSet Name="FK_CT_SuDungDV_DichVu" Association="Self.FK_CT_SuDungDV_DichVu">
+            <End Role="DichVu" EntitySet="DichVu" />
+            <End Role="CT_SuDungDV" EntitySet="CT_SuDungDV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CT_SuDungDV_DonDatPhong" Association="Self.FK_CT_SuDungDV_DonDatPhong">
             <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+            <End Role="CT_SuDungDV" EntitySet="CT_SuDungDV" />
           </AssociationSet>
           <AssociationSet Name="FK_DonDatPhong_KhachHang" Association="Self.FK_DonDatPhong_KhachHang">
             <End Role="KhachHang" EntitySet="KhachHang" />
@@ -242,6 +275,10 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           </AssociationSet>
           <AssociationSet Name="FK_DonDatPhong_Phong" Association="Self.FK_DonDatPhong_Phong">
             <End Role="Phong" EntitySet="Phong" />
+            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonDatPhong_tblAdmin01" Association="Self.FK_DonDatPhong_tblAdmin01">
+            <End Role="tblAdmin01" EntitySet="tblAdmin01" />
             <End Role="DonDatPhong" EntitySet="DonDatPhong" />
           </AssociationSet>
           <AssociationSet Name="FK_DonDatPhong_TT_DonDatPhong" Association="Self.FK_DonDatPhong_TT_DonDatPhong">
@@ -257,18 +294,28 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
             <End Role="Phong" EntitySet="Phong" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DatPhongKhachSanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChucVuAdmin">
+          <Key>
+            <PropertyRef Name="MaCV" />
+          </Key>
+          <Property Name="MaCV" Type="Int32" Nullable="false" />
+          <Property Name="TenCV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblAdmin01" Relationship="Self.FK_Admin_ChucVuAdmin" FromRole="ChucVuAdmin" ToRole="tblAdmin01" />
+        </EntityType>
         <EntityType Name="DichVu">
           <Key>
             <PropertyRef Name="MaDV" />
           </Key>
           <Property Name="MaDV" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenDV" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="GiaDV" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="TinhTrang" Type="Boolean" />
+          <Property Name="GiaDV" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="CT_SuDungDV" Relationship="Self.FK_CT_SuDungDV_DichVu" FromRole="DichVu" ToRole="CT_SuDungDV" />
         </EntityType>
         <EntityType Name="DonDatPhong">
           <Key>
@@ -279,14 +326,17 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           <Property Name="MaP" Type="Int32" />
           <Property Name="NgayDen" Type="DateTime" Precision="0" />
           <Property Name="NgayDi" Type="DateTime" Precision="0" />
-          <Property Name="TienCoc" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaTinhTrang" Type="Int32" />
+          <Property Name="IDTaiKhoan" Type="Int32" />
+          <Property Name="TienPhong" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TienDichVu" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TongTien" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="CT_SuDungDV" Relationship="Self.FK_CT_SuDungDV_DonDatPhong" FromRole="DonDatPhong" ToRole="CT_SuDungDV" />
           <NavigationProperty Name="KhachHang" Relationship="Self.FK_DonDatPhong_KhachHang" FromRole="DonDatPhong" ToRole="KhachHang" />
           <NavigationProperty Name="Phong" Relationship="Self.FK_DonDatPhong_Phong" FromRole="DonDatPhong" ToRole="Phong" />
-          <Property Name="MaTinhTrang" Type="Int32" />
-          <NavigationProperty Name="TT_DonDatPhong" Relationship="DatPhongKhachSanModel.FK_DonDatPhong_TT_DonDatPhong" FromRole="DonDatPhong" ToRole="TT_DonDatPhong" />
-          <Property Name="IDTaiKhoan" Type="Int32" />
-          <NavigationProperty Name="tblAdmin01" Relationship="DatPhongKhachSanModel.FK_DonDatPhong_Admin2" FromRole="DonDatPhong" ToRole="tblAdmin01" />
+          <NavigationProperty Name="tblAdmin01" Relationship="Self.FK_DonDatPhong_tblAdmin01" FromRole="DonDatPhong" ToRole="tblAdmin01" />
+          <NavigationProperty Name="TT_DonDatPhong" Relationship="Self.FK_DonDatPhong_TT_DonDatPhong" FromRole="DonDatPhong" ToRole="TT_DonDatPhong" />
         </EntityType>
         <EntityType Name="KhachHang">
           <Key>
@@ -320,17 +370,15 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           <Property Name="MaP" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaLP" Type="Int32" />
           <Property Name="SoP" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="GiaP" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="SoNguoi" Type="Int32" />
           <Property Name="Giuong" Type="Int32" />
           <Property Name="MoTa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HinhAnh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Hinh1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Hinh2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaTinhTrang" Type="Int32" />
+          <Property Name="GiaP" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="DonDatPhong" Relationship="Self.FK_DonDatPhong_Phong" FromRole="Phong" ToRole="DonDatPhong" />
           <NavigationProperty Name="LoaiPhong" Relationship="Self.FK_Phong_LoaiPhong" FromRole="Phong" ToRole="LoaiPhong" />
-          <Property Name="MaTinhTrang" Type="Int32" />
-          <NavigationProperty Name="TT_Phong" Relationship="DatPhongKhachSanModel.FK_Phong_TT_Phong" FromRole="Phong" ToRole="TT_Phong" />
+          <NavigationProperty Name="TT_Phong" Relationship="Self.FK_Phong_TT_Phong" FromRole="Phong" ToRole="TT_Phong" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -342,6 +390,36 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="tblAdmin01">
+          <Key>
+            <PropertyRef Name="IDTaiKhoan" />
+          </Key>
+          <Property Name="IDTaiKhoan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenDangNhap" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MatKhau" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Sdt" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TinhTrang" Type="Boolean" />
+          <Property Name="MaCV" Type="Int32" />
+          <NavigationProperty Name="ChucVuAdmin" Relationship="Self.FK_Admin_ChucVuAdmin" FromRole="tblAdmin01" ToRole="ChucVuAdmin" />
+          <NavigationProperty Name="DonDatPhong" Relationship="Self.FK_DonDatPhong_tblAdmin01" FromRole="tblAdmin01" ToRole="DonDatPhong" />
+        </EntityType>
+        <EntityType Name="TT_DonDatPhong">
+          <Key>
+            <PropertyRef Name="MaTinhTrang" />
+          </Key>
+          <Property Name="MaTinhTrang" Type="Int32" Nullable="false" />
+          <Property Name="TenTinhTrang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DonDatPhong" Relationship="Self.FK_DonDatPhong_TT_DonDatPhong" FromRole="TT_DonDatPhong" ToRole="DonDatPhong" />
+        </EntityType>
+        <EntityType Name="TT_Phong">
+          <Key>
+            <PropertyRef Name="MaTinhTrang" />
+          </Key>
+          <Property Name="MaTinhTrang" Type="Int32" Nullable="false" />
+          <Property Name="TenTinhTrang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Phong" Relationship="Self.FK_Phong_TT_Phong" FromRole="TT_Phong" ToRole="Phong" />
+        </EntityType>
         <EntityType Name="YKienKhachHang">
           <Key>
             <PropertyRef Name="MaYK" />
@@ -351,6 +429,53 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           <Property Name="NgayGui" Type="DateTime" Precision="0" />
           <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="CT_SuDungDV">
+          <Key>
+            <PropertyRef Name="MaDV" />
+            <PropertyRef Name="MaDDP" />
+          </Key>
+          <Property Name="MaDV" Type="Int32" Nullable="false" />
+          <Property Name="MaDDP" Type="Int32" Nullable="false" />
+          <Property Name="SoLuong" Type="Int32" />
+          <NavigationProperty Name="DichVu" Relationship="Self.FK_CT_SuDungDV_DichVu" FromRole="CT_SuDungDV" ToRole="DichVu" />
+          <NavigationProperty Name="DonDatPhong" Relationship="Self.FK_CT_SuDungDV_DonDatPhong" FromRole="CT_SuDungDV" ToRole="DonDatPhong" />
+        </EntityType>
+        <Association Name="FK_Admin_ChucVuAdmin">
+          <End Role="ChucVuAdmin" Type="Self.ChucVuAdmin" Multiplicity="0..1" />
+          <End Role="tblAdmin01" Type="Self.tblAdmin01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChucVuAdmin">
+              <PropertyRef Name="MaCV" />
+            </Principal>
+            <Dependent Role="tblAdmin01">
+              <PropertyRef Name="MaCV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CT_SuDungDV_DichVu">
+          <End Role="DichVu" Type="Self.DichVu" Multiplicity="1" />
+          <End Role="CT_SuDungDV" Type="Self.CT_SuDungDV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DichVu">
+              <PropertyRef Name="MaDV" />
+            </Principal>
+            <Dependent Role="CT_SuDungDV">
+              <PropertyRef Name="MaDV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CT_SuDungDV_DonDatPhong">
+          <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="1" />
+          <End Role="CT_SuDungDV" Type="Self.CT_SuDungDV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DonDatPhong">
+              <PropertyRef Name="MaDDP" />
+            </Principal>
+            <Dependent Role="CT_SuDungDV">
+              <PropertyRef Name="MaDDP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DonDatPhong_KhachHang">
           <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="0..1" />
           <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="*" />
@@ -375,6 +500,30 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DonDatPhong_tblAdmin01">
+          <End Role="tblAdmin01" Type="Self.tblAdmin01" Multiplicity="0..1" />
+          <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblAdmin01">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Principal>
+            <Dependent Role="DonDatPhong">
+              <PropertyRef Name="IDTaiKhoan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DonDatPhong_TT_DonDatPhong">
+          <End Role="TT_DonDatPhong" Type="Self.TT_DonDatPhong" Multiplicity="0..1" />
+          <End Role="DonDatPhong" Type="Self.DonDatPhong" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TT_DonDatPhong">
+              <PropertyRef Name="MaTinhTrang" />
+            </Principal>
+            <Dependent Role="DonDatPhong">
+              <PropertyRef Name="MaTinhTrang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Phong_LoaiPhong">
           <End Role="LoaiPhong" Type="Self.LoaiPhong" Multiplicity="0..1" />
           <End Role="Phong" Type="Self.Phong" Multiplicity="*" />
@@ -387,78 +536,9 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DatPhongKhachSanEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="DichVu" EntityType="Self.DichVu" />
-          <EntitySet Name="DonDatPhong" EntityType="Self.DonDatPhong" />
-          <EntitySet Name="KhachHang" EntityType="Self.KhachHang" />
-          <EntitySet Name="LoaiPhong" EntityType="Self.LoaiPhong" />
-          <EntitySet Name="Phong" EntityType="Self.Phong" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="YKienKhachHang" EntityType="Self.YKienKhachHang" />
-          <AssociationSet Name="FK_DonDatPhong_KhachHang" Association="Self.FK_DonDatPhong_KhachHang">
-            <End Role="KhachHang" EntitySet="KhachHang" />
-            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DonDatPhong_Phong" Association="Self.FK_DonDatPhong_Phong">
-            <End Role="Phong" EntitySet="Phong" />
-            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Phong_LoaiPhong" Association="Self.FK_Phong_LoaiPhong">
-            <End Role="LoaiPhong" EntitySet="LoaiPhong" />
-            <End Role="Phong" EntitySet="Phong" />
-          </AssociationSet>
-          <EntitySet Name="TT_DonDatPhong" EntityType="DatPhongKhachSanModel.TT_DonDatPhong" />
-          <EntitySet Name="TT_Phong" EntityType="DatPhongKhachSanModel.TT_Phong" />
-          <AssociationSet Name="FK_DonDatPhong_TT_DonDatPhong" Association="DatPhongKhachSanModel.FK_DonDatPhong_TT_DonDatPhong">
-            <End Role="TT_DonDatPhong" EntitySet="TT_DonDatPhong" />
-            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Phong_TT_Phong" Association="DatPhongKhachSanModel.FK_Phong_TT_Phong">
-            <End Role="TT_Phong" EntitySet="TT_Phong" />
-            <End Role="Phong" EntitySet="Phong" />
-          </AssociationSet>
-          <EntitySet Name="ChucVuAdmin" EntityType="DatPhongKhachSanModel.ChucVuAdmin" />
-          <EntitySet Name="tblAdmin01" EntityType="DatPhongKhachSanModel.tblAdmin01" />
-          <AssociationSet Name="FK_Admin_ChucVuAdmin2" Association="DatPhongKhachSanModel.FK_Admin_ChucVuAdmin2">
-            <End Role="ChucVuAdmin" EntitySet="ChucVuAdmin" />
-            <End Role="tblAdmin01" EntitySet="tblAdmin01" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DonDatPhong_Admin2" Association="DatPhongKhachSanModel.FK_DonDatPhong_Admin2">
-            <End Role="tblAdmin01" EntitySet="tblAdmin01" />
-            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="TT_DonDatPhong">
-          <Key>
-            <PropertyRef Name="MaTinhTrang" />
-          </Key>
-          <Property Name="MaTinhTrang" Type="Int32" Nullable="false" />
-          <Property Name="TenTinhTrang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DonDatPhong" Relationship="DatPhongKhachSanModel.FK_DonDatPhong_TT_DonDatPhong" FromRole="TT_DonDatPhong" ToRole="DonDatPhong" />
-        </EntityType>
-        <EntityType Name="TT_Phong">
-          <Key>
-            <PropertyRef Name="MaTinhTrang" />
-          </Key>
-          <Property Name="MaTinhTrang" Type="Int32" Nullable="false" />
-          <Property Name="TenTinhTrang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Phong" Relationship="DatPhongKhachSanModel.FK_Phong_TT_Phong" FromRole="TT_Phong" ToRole="Phong" />
-        </EntityType>
-        <Association Name="FK_DonDatPhong_TT_DonDatPhong">
-          <End Type="DatPhongKhachSanModel.TT_DonDatPhong" Role="TT_DonDatPhong" Multiplicity="0..1" />
-          <End Type="DatPhongKhachSanModel.DonDatPhong" Role="DonDatPhong" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TT_DonDatPhong">
-              <PropertyRef Name="MaTinhTrang" />
-            </Principal>
-            <Dependent Role="DonDatPhong">
-              <PropertyRef Name="MaTinhTrang" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Phong_TT_Phong">
-          <End Type="DatPhongKhachSanModel.TT_Phong" Role="TT_Phong" Multiplicity="0..1" />
-          <End Type="DatPhongKhachSanModel.Phong" Role="Phong" Multiplicity="*" />
+          <End Role="TT_Phong" Type="Self.TT_Phong" Multiplicity="0..1" />
+          <End Role="Phong" Type="Self.Phong" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TT_Phong">
               <PropertyRef Name="MaTinhTrang" />
@@ -468,80 +548,94 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ChucVuAdmin">
-          <Key>
-            <PropertyRef Name="MaCV" />
-          </Key>
-          <Property Name="MaCV" Type="Int32" Nullable="false" />
-          <Property Name="TenCV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tblAdmin01" Relationship="DatPhongKhachSanModel.FK_Admin_ChucVuAdmin2" FromRole="ChucVuAdmin" ToRole="tblAdmin01" />
-        </EntityType>
-        <EntityType Name="tblAdmin01">
-          <Key>
-            <PropertyRef Name="IDTaiKhoan" />
-          </Key>
-          <Property Name="IDTaiKhoan" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TenDangNhap" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="MatKhau" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Sdt" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TinhTrang" Type="Boolean" />
-          <Property Name="MaCV" Type="Int32" />
-          <NavigationProperty Name="ChucVuAdmin" Relationship="DatPhongKhachSanModel.FK_Admin_ChucVuAdmin2" FromRole="tblAdmin01" ToRole="ChucVuAdmin" />
-          <NavigationProperty Name="DonDatPhong" Relationship="DatPhongKhachSanModel.FK_DonDatPhong_Admin2" FromRole="tblAdmin01" ToRole="DonDatPhong" />
-        </EntityType>
-        <Association Name="FK_Admin_ChucVuAdmin2">
-          <End Type="DatPhongKhachSanModel.ChucVuAdmin" Role="ChucVuAdmin" Multiplicity="0..1" />
-          <End Type="DatPhongKhachSanModel.tblAdmin01" Role="tblAdmin01" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ChucVuAdmin">
-              <PropertyRef Name="MaCV" />
-            </Principal>
-            <Dependent Role="tblAdmin01">
-              <PropertyRef Name="MaCV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DonDatPhong_Admin2">
-          <End Type="DatPhongKhachSanModel.tblAdmin01" Role="tblAdmin01" Multiplicity="0..1" />
-          <End Type="DatPhongKhachSanModel.DonDatPhong" Role="DonDatPhong" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblAdmin01">
-              <PropertyRef Name="IDTaiKhoan" />
-            </Principal>
-            <Dependent Role="DonDatPhong">
-              <PropertyRef Name="IDTaiKhoan" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityContainer Name="DatPhongKhachSanEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChucVuAdmin" EntityType="Self.ChucVuAdmin" />
+          <EntitySet Name="DichVu" EntityType="Self.DichVu" />
+          <EntitySet Name="DonDatPhong" EntityType="Self.DonDatPhong" />
+          <EntitySet Name="KhachHang" EntityType="Self.KhachHang" />
+          <EntitySet Name="LoaiPhong" EntityType="Self.LoaiPhong" />
+          <EntitySet Name="Phong" EntityType="Self.Phong" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tblAdmin01" EntityType="Self.tblAdmin01" />
+          <EntitySet Name="TT_DonDatPhong" EntityType="Self.TT_DonDatPhong" />
+          <EntitySet Name="TT_Phong" EntityType="Self.TT_Phong" />
+          <EntitySet Name="YKienKhachHang" EntityType="Self.YKienKhachHang" />
+          <EntitySet Name="CT_SuDungDV" EntityType="Self.CT_SuDungDV" />
+          <AssociationSet Name="FK_Admin_ChucVuAdmin" Association="Self.FK_Admin_ChucVuAdmin">
+            <End Role="ChucVuAdmin" EntitySet="ChucVuAdmin" />
+            <End Role="tblAdmin01" EntitySet="tblAdmin01" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CT_SuDungDV_DichVu" Association="Self.FK_CT_SuDungDV_DichVu">
+            <End Role="DichVu" EntitySet="DichVu" />
+            <End Role="CT_SuDungDV" EntitySet="CT_SuDungDV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CT_SuDungDV_DonDatPhong" Association="Self.FK_CT_SuDungDV_DonDatPhong">
+            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+            <End Role="CT_SuDungDV" EntitySet="CT_SuDungDV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonDatPhong_KhachHang" Association="Self.FK_DonDatPhong_KhachHang">
+            <End Role="KhachHang" EntitySet="KhachHang" />
+            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonDatPhong_Phong" Association="Self.FK_DonDatPhong_Phong">
+            <End Role="Phong" EntitySet="Phong" />
+            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonDatPhong_tblAdmin01" Association="Self.FK_DonDatPhong_tblAdmin01">
+            <End Role="tblAdmin01" EntitySet="tblAdmin01" />
+            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DonDatPhong_TT_DonDatPhong" Association="Self.FK_DonDatPhong_TT_DonDatPhong">
+            <End Role="TT_DonDatPhong" EntitySet="TT_DonDatPhong" />
+            <End Role="DonDatPhong" EntitySet="DonDatPhong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phong_LoaiPhong" Association="Self.FK_Phong_LoaiPhong">
+            <End Role="LoaiPhong" EntitySet="LoaiPhong" />
+            <End Role="Phong" EntitySet="Phong" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Phong_TT_Phong" Association="Self.FK_Phong_TT_Phong">
+            <End Role="TT_Phong" EntitySet="TT_Phong" />
+            <End Role="Phong" EntitySet="Phong" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DatPhongKhachSanModelStoreContainer" CdmEntityContainer="DatPhongKhachSanEntities">
+          <EntitySetMapping Name="ChucVuAdmin">
+            <EntityTypeMapping TypeName="DatPhongKhachSanModel.ChucVuAdmin">
+              <MappingFragment StoreEntitySet="ChucVuAdmin">
+                <ScalarProperty Name="MaCV" ColumnName="MaCV" />
+                <ScalarProperty Name="TenCV" ColumnName="TenCV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DichVu">
             <EntityTypeMapping TypeName="DatPhongKhachSanModel.DichVu">
               <MappingFragment StoreEntitySet="DichVu">
                 <ScalarProperty Name="MaDV" ColumnName="MaDV" />
                 <ScalarProperty Name="TenDV" ColumnName="TenDV" />
-                <ScalarProperty Name="GiaDV" ColumnName="GiaDV" />
                 <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="GiaDV" ColumnName="GiaDV" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DonDatPhong">
             <EntityTypeMapping TypeName="DatPhongKhachSanModel.DonDatPhong">
               <MappingFragment StoreEntitySet="DonDatPhong">
-                <ScalarProperty Name="IDTaiKhoan" ColumnName="IDTaiKhoan" />
-                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
                 <ScalarProperty Name="MaDDP" ColumnName="MaDDP" />
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="MaP" ColumnName="MaP" />
                 <ScalarProperty Name="NgayDen" ColumnName="NgayDen" />
                 <ScalarProperty Name="NgayDi" ColumnName="NgayDi" />
-                <ScalarProperty Name="TienCoc" ColumnName="TienCoc" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
+                <ScalarProperty Name="IDTaiKhoan" ColumnName="IDTaiKhoan" />
+                <ScalarProperty Name="TienPhong" ColumnName="TienPhong" />
+                <ScalarProperty Name="TienDichVu" ColumnName="TienDichVu" />
+                <ScalarProperty Name="TongTien" ColumnName="TongTien" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -573,17 +667,15 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
           <EntitySetMapping Name="Phong">
             <EntityTypeMapping TypeName="DatPhongKhachSanModel.Phong">
               <MappingFragment StoreEntitySet="Phong">
-                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
                 <ScalarProperty Name="MaP" ColumnName="MaP" />
                 <ScalarProperty Name="MaLP" ColumnName="MaLP" />
                 <ScalarProperty Name="SoP" ColumnName="SoP" />
-                <ScalarProperty Name="GiaP" ColumnName="GiaP" />
                 <ScalarProperty Name="SoNguoi" ColumnName="SoNguoi" />
                 <ScalarProperty Name="Giuong" ColumnName="Giuong" />
                 <ScalarProperty Name="MoTa" ColumnName="MoTa" />
                 <ScalarProperty Name="HinhAnh" ColumnName="HinhAnh" />
-                <ScalarProperty Name="Hinh1" ColumnName="Hinh1" />
-                <ScalarProperty Name="Hinh2" ColumnName="Hinh2" />
+                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
+                <ScalarProperty Name="GiaP" ColumnName="GiaP" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -598,6 +690,35 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblAdmin01">
+            <EntityTypeMapping TypeName="DatPhongKhachSanModel.tblAdmin01">
+              <MappingFragment StoreEntitySet="tblAdmin01">
+                <ScalarProperty Name="IDTaiKhoan" ColumnName="IDTaiKhoan" />
+                <ScalarProperty Name="TenDangNhap" ColumnName="TenDangNhap" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Sdt" ColumnName="Sdt" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+                <ScalarProperty Name="MaCV" ColumnName="MaCV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TT_DonDatPhong">
+            <EntityTypeMapping TypeName="DatPhongKhachSanModel.TT_DonDatPhong">
+              <MappingFragment StoreEntitySet="TT_DonDatPhong">
+                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
+                <ScalarProperty Name="TenTinhTrang" ColumnName="TenTinhTrang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TT_Phong">
+            <EntityTypeMapping TypeName="DatPhongKhachSanModel.TT_Phong">
+              <MappingFragment StoreEntitySet="TT_Phong">
+                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
+                <ScalarProperty Name="TenTinhTrang" ColumnName="TenTinhTrang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="YKienKhachHang">
             <EntityTypeMapping TypeName="DatPhongKhachSanModel.YKienKhachHang">
               <MappingFragment StoreEntitySet="YKienKhachHang">
@@ -608,40 +729,12 @@ error 6004: The table 'DatPhongKhachSan.dbo.CT_SuDungDV' is referenced by a rela
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TT_DonDatPhong">
-            <EntityTypeMapping TypeName="DatPhongKhachSanModel.TT_DonDatPhong">
-              <MappingFragment StoreEntitySet="TT_DonDatPhong">
-                <ScalarProperty Name="TenTinhTrang" ColumnName="TenTinhTrang" />
-                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TT_Phong">
-            <EntityTypeMapping TypeName="DatPhongKhachSanModel.TT_Phong">
-              <MappingFragment StoreEntitySet="TT_Phong">
-                <ScalarProperty Name="TenTinhTrang" ColumnName="TenTinhTrang" />
-                <ScalarProperty Name="MaTinhTrang" ColumnName="MaTinhTrang" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ChucVuAdmin">
-            <EntityTypeMapping TypeName="DatPhongKhachSanModel.ChucVuAdmin">
-              <MappingFragment StoreEntitySet="ChucVuAdmin">
-                <ScalarProperty Name="TenCV" ColumnName="TenCV" />
-                <ScalarProperty Name="MaCV" ColumnName="MaCV" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblAdmin01">
-            <EntityTypeMapping TypeName="DatPhongKhachSanModel.tblAdmin01">
-              <MappingFragment StoreEntitySet="tblAdmin01">
-                <ScalarProperty Name="MaCV" ColumnName="MaCV" />
-                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
-                <ScalarProperty Name="Sdt" ColumnName="Sdt" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
-                <ScalarProperty Name="TenDangNhap" ColumnName="TenDangNhap" />
-                <ScalarProperty Name="IDTaiKhoan" ColumnName="IDTaiKhoan" />
+          <EntitySetMapping Name="CT_SuDungDV">
+            <EntityTypeMapping TypeName="DatPhongKhachSanModel.CT_SuDungDV">
+              <MappingFragment StoreEntitySet="CT_SuDungDV">
+                <ScalarProperty Name="MaDV" ColumnName="MaDV" />
+                <ScalarProperty Name="MaDDP" ColumnName="MaDDP" />
+                <ScalarProperty Name="SoLuong" ColumnName="SoLuong" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -72,7 +72,7 @@ namespace DatPhongKhachSan.Areas.Admin.Controllers.Admin
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(String radSelect, [Bind(Include = "MaDDP,MaKH,MaP,NgayDen,NgayDi,TienCoc,GhiChu,MaTinhTrang,IDTaiKhoan")] DonDatPhong DonDatPhong)
+        public ActionResult Create(String radSelect, [Bind(Include = "MaDDP,MaKH,MaP,NgayDen,NgayDi,TongTien,TienDichVu,TienPhong,GhiChu,MaTinhTrang,IDTaiKhoan")] DonDatPhong DonDatPhong)
         {
             System.Diagnostics.Debug.WriteLine("SS :"+radSelect);
             if (ModelState.IsValid)
@@ -118,7 +118,7 @@ namespace DatPhongKhachSan.Areas.Admin.Controllers.Admin
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaDDP,MaKH,MaP,NgayDen,NgayDi,TienCoc,GhiChu,MaTinhTrang,IDTaiKhoan")] DonDatPhong DonDatPhong)
+        public ActionResult Edit([Bind(Include = "MaDDP,MaKH,MaP,NgayDen,NgayDi,TongTien,TienDichVu,TienPhong,GhiChu,MaTinhTrang,IDTaiKhoan")] DonDatPhong DonDatPhong)
         {
             if (ModelState.IsValid)
             {
@@ -174,5 +174,67 @@ namespace DatPhongKhachSan.Areas.Admin.Controllers.Admin
             }
             base.Dispose(disposing);
         }
+
+
+
+
+        public ActionResult Add(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DonDatPhong DonDatPhong = db.DonDatPhong.Find(id);
+            if (DonDatPhong == null)
+            {
+                return HttpNotFound();
+            }
+            return View(DonDatPhong);
+        }
+
+
+
+        public ActionResult ChiTietPhieuDatPhong(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DonDatPhong DonDatPhong = db.DonDatPhong.Find(id);
+            if (DonDatPhong == null)
+            {
+                return HttpNotFound();
+            }
+
+            var TienPhong = (DonDatPhong.NgayDi - DonDatPhong.NgayDen).Value.TotalDays * ((float?)DonDatPhong.Phong.GiaP);
+            ViewBag.TienPhong = TienPhong;
+
+            ViewBag.time_now = DateTime.Now.ToString();
+
+            List<CT_SuDungDV> sddv = db.CT_SuDungDV.Where(u => u.MaDDP == id).ToList();
+            ViewBag.list_dv = sddv;
+            double tongtiendv = 0;
+            List<double> tt = new List<double>();
+            foreach (var item in sddv)
+            {
+                double t = (double)(item.SoLuong * item.DichVu.GiaDV);
+                tongtiendv += t;
+                tt.Add(t);
+            }
+            ViewBag.list_tt = tt;
+            ViewBag.TienDichVu = tongtiendv;
+            ViewBag.TongTien = TienPhong + tongtiendv;
+            return View(DonDatPhong);
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }

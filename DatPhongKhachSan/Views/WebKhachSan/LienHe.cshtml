@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-6 animate-box">
-                    <h3>Get In Touch</h3>
+                    <h3>LIÊN HỆ</h3>
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
@@ -41,7 +41,7 @@
                                 <div class="col-md-12">
                                     <label class="sr-only" for="name">Name</label>
                                     @*<input type="text" id="name" class="form-control" placeholder="Your firstname">*@
-                                    @Html.TextBox("HoTen", null, new { @class = "form-control", placeholder = "Your Name" })
+                                    @Html.TextBox("HoTen", null, new { @class = "form-control", placeholder = "Vui lòng nhập họ tên" })
                                 </div>
 
                             </div>
@@ -53,11 +53,11 @@
                             <div class="col-md-12">
                                 <label class="sr-only" for="message">Message</label>
                                 @*<textarea name="message" id="message" cols="30" rows="10" class="form-control" placeholder="Write us something"></textarea>*@
-                                @Html.TextArea("NoiDung", null, new { @class = "form-control", placeholder = "Write us something", cols = "30", rows = "10" })
+                                @Html.TextArea("NoiDung", null, new { @class = "form-control", placeholder = "Nêu lên ý kiến của bạn", cols = "30", rows = "10" })
                             </div>
                         </div>
                         <div class="form-group">
-                            <input onclick="return checkSMS()" type="submit" value="Send Message" class="btn btn-primary">
+                            <input onclick="return checkSMS()" type="submit" value="Gửi" class="btn btn-primary">
                         </div>
 
                     }
@@ -65,7 +65,7 @@
                 <div class="col-md-5 col-md-push-1 animate-box">
 
                     <div class="gtco-contact-info">
-                        <h3>Contact Information</h3>
+                        <h3>THÔNG TIN LIÊN HỆ</h3>
                         <ul>
                             <li class="address">Royal hotel nguyễn du bến nghé  <br> quận 1 thành phố hồ chí minh</li>
                             <li class="phone"><a href="tel://0333932605">+84 0333932605</a></li>

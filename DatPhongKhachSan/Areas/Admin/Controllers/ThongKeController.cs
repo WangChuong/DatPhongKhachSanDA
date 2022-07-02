@@ -40,7 +40,7 @@ namespace DatPhongKhachSan.Areas.Admin  .Controllers.Admin
             DateTime date = DateTime.Now;
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            var tong = db.DonDatPhong.Where(t => t.MaTinhTrang == 2 && t.NgayDi >= firstDayOfMonth && t.NgayDi <= lastDayOfMonth).Sum(t => t.TienCoc);
+            var tong = db.DonDatPhong.Where(t => t.MaTinhTrang == 2 && t.NgayDi >= firstDayOfMonth && t.NgayDi <= lastDayOfMonth).Sum(t => t.TongTien);
             if (tong != null)
                 ViewBag.tien_ht = String.Format("{0:0,0.00}", tong);
             else
@@ -59,7 +59,7 @@ namespace DatPhongKhachSan.Areas.Admin  .Controllers.Admin
             {
                 DateTime f1 = end.AddDays(-num + i);
                 DateTime f2 = f1.AddDays(1);
-                var q = db.DonDatPhong.Where(t => t.MaTinhTrang == 2 && t.NgayDi > f1 && t.NgayDi < f2).Sum(t => t.TienCoc);
+                var q = db.DonDatPhong.Where(t => t.MaTinhTrang == 2 && t.NgayDi > f1 && t.NgayDi < f2).Sum(t => t.TongTien);
                 if (q == null)
                     q = 0;
                 tong += (double)q;
