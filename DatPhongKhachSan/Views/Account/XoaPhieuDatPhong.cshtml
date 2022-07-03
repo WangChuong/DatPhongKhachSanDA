@@ -23,7 +23,13 @@
                 @Html.DisplayFor(model => model.KhachHang.TenKH)
             </dd>
 
+            <dt>
+                @Html.DisplayName("Ngày đặt")
+            </dt>
 
+            <dd>
+                @Html.DisplayFor(model => model.NgayDen)
+            </dd>
 
             <dt>
                 @Html.DisplayName("Ngày vào")
@@ -43,11 +49,11 @@
 
 
             <dt>
-                @Html.DisplayName("Mã phòng")
+                @Html.DisplayName("Số phòng")
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Phong.MaP)
+                @Html.DisplayFor(model => model.Phong.SoP)
             </dd>
 
             <dt>

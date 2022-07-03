@@ -76,9 +76,40 @@ namespace DatPhongKhachSan.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public ActionResult FindRoom()
+        {
+            return RedirectToAction("Index", "WebKhachSan");
+        }
+        [HttpPost]
+        public ActionResult FindRoom(String datestart, String dateend)
+        {
+            List<Phong> li = new List<Phong>();
+            if (datestart.Equals("") || dateend.Equals(""))
+            {
+                li = db.Phong.ToList();
+            }
+            else
+            {
+                Session["ds_MaP"] = null;
+                Session["NgayDen"] = datestart;
+                Session["NgayDi"] = dateend;
+
+                datestart = DateTime.ParseExact(datestart, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
+                dateend = DateTime.ParseExact(dateend, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
+
+                DateTime dateS = (DateTime.Parse(datestart)).AddHours(12);
+                DateTime dateE = (DateTime.Parse(dateend)).AddHours(12);
+                li = db.Phong.Where(t => !(db.DonDatPhong.Where(m => (m.MaTinhTrang == 1 || m.MaTinhTrang == 3)
+                    && m.NgayDi > dateS && m.NgayDen < dateE))
+                    .Select(m => m.MaP).Contains(t.MaP)).ToList();
+            }
+            return View(li);
+        }
         public ActionResult ChonPhong(string id)
         {
-            //Session["ma_phong"] = id;
+          
             try
             {
                 List<int> ds;
@@ -94,7 +125,7 @@ namespace DatPhongKhachSan.Controllers
                 ViewBag.result = "error";
             }
             return View();
-            //return RedirectToAction("BookRoom", "Home");
+           
         }
         public ActionResult HuyChon(string id)
         {
@@ -153,11 +184,11 @@ namespace DatPhongKhachSan.Controllers
 
 
 #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (MaKH == null || MaP == null || NgayDen == null  )
+            if (MaKH == null || MaP == null || NgayDen == null || NgayDi == null)
 #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             {
-                return RedirectToAction("GioiThieu", "WebKhachSan");
+                return RedirectToAction("Index", "WebKhachSan");
             }
             else
             {
@@ -167,7 +198,7 @@ namespace DatPhongKhachSan.Controllers
                 ddp.MaTinhTrang = 1;
                 ddp.NgayDen = DateTime.Now;
                 ddp.NgayDen = (DateTime.ParseExact(NgayDen, "dd/MM/yyyy", CultureInfo.InvariantCulture)).AddHours(12);
-                //ddp.NgayDi = (DateTime.ParseExact(NgayDi, "dd/MM/yyyy", CultureInfo.InvariantCulture)).AddHours(12);
+                ddp.NgayDi = (DateTime.ParseExact(NgayDi, "dd/MM/yyyy", CultureInfo.InvariantCulture)).AddHours(12);
                 try
                 {
                     for (int i = 0; i < ds.Count; i++)
@@ -220,34 +251,7 @@ namespace DatPhongKhachSan.Controllers
         }
 
 
-        public ActionResult FindRoom()
-        {
-            return RedirectToAction("Index", "WebKhachSan");
-        }
-        [HttpPost]
-        public ActionResult FindRoom(String datestart, String dateend)
-        {
-            List<Phong> li = new List<Phong>();
-            if (datestart.Equals("") || dateend.Equals(""))
-            {
-                li = db.Phong.ToList();
-            }
-            else
-            {
-                Session["ds_MaP"] = null;
-                Session["NgayDen"] = datestart;
-                Session["NgayDi"] = dateend;
 
-                datestart = DateTime.ParseExact(datestart, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
-                dateend = DateTime.ParseExact(dateend, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy/MM/dd");
-
-                DateTime dateS = (DateTime.Parse(datestart)).AddHours(12);
-                DateTime dateE = (DateTime.Parse(dateend)).AddHours(12);
-                li = db.Phong.Where(t => !(db.DonDatPhong.Where(m => (m.MaTinhTrang == 1 || m.MaTinhTrang == 2)
-                    && m.NgayDi > dateS && m.NgayDen < dateE))
-                    .Select(m => m.MaP).Contains(t.MaP)).ToList();
-            }
-            return View(li);
-        }
+      
     }
 }

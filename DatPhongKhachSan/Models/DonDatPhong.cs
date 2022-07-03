@@ -14,6 +14,7 @@ namespace DatPhongKhachSan.Models
     
     public partial class DonDatPhong
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DonDatPhong()
         {
             this.CT_SuDungDV = new HashSet<CT_SuDungDV>();
@@ -30,7 +31,7 @@ namespace DatPhongKhachSan.Models
         public Nullable<decimal> TienPhong { get; set; }
         public Nullable<decimal> TienDichVu { get; set; }
         public Nullable<decimal> TongTien { get; set; }
-    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CT_SuDungDV> CT_SuDungDV { get; set; }
         public virtual KhachHang KhachHang { get; set; }
         public virtual Phong Phong { get; set; }

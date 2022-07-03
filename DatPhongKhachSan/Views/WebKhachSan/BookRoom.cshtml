@@ -59,7 +59,7 @@
                                 <div class="form-group">
                                     @Html.Label("Ngày đi", htmlAttributes: new { @class = "control-label col-md-3" })
                                     <div class="col-md-9">
-                                        @Html.TextBox("ngay_ra", (String)ViewBag.NgayDi, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.TextBox("NgayDi", (String)ViewBag.NgayDi, new { @class = "form-control", @readonly = "readonly" })
                                     </div>
                                 </div>
 
@@ -109,7 +109,10 @@
                                 <th>
                                     @Html.DisplayName("Ngày vào")
                                 </th>
-                                
+                                <th>
+                                    @Html.DisplayName("Ngày ra")
+                                </th>
+
                                 <th>
                                     @Html.DisplayName("Số phòng")
                                 </th>
@@ -121,25 +124,27 @@
                             @foreach (var item in Model)
                             {
 
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NgayDen)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NgayDen)
-                                    </td>
-                                   
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NgayDen)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NgayDen)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NgayDi)
+                                </td>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Phong.SoP)
-                                    </td>
-                                    <td>
-                                        <a class="nav-link" href="@Url.Action("XoaPhieuDatPhong", "Account", new { id = item.MaDDP })">Hủy</a>
-                                    </td>
-                                </tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Phong.SoP)
+                                </td>
+                                <td>
+                                    <a class="nav-link" href="@Url.Action("XoaPhieuDatPhong", "Account", new { id = item.MaDDP })">Hủy</a>
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>

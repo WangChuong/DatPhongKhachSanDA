@@ -314,10 +314,6 @@ namespace DatPhongKhachSan.Controllers.WebKhachSan
         public ActionResult ConfirmXoaPhieuDatPhong(int id)
         {
             DonDatPhong DonDatPhong = db.DonDatPhong.Find(id);
-
-
-
-
             DonDatPhong.MaTinhTrang = 2;
             db.Entry(DonDatPhong).State = EntityState.Modified;
             db.SaveChanges();

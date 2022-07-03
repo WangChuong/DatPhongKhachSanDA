@@ -29,17 +29,7 @@
 
             @using (Html.BeginForm("FindRoom", "WebKhachSan"))
             {
-                @*<div class="row form-group">
-                        <div class="col-md-12">
-                            <label for="activities">Type Room</label>
-                            <select name="#" id="activities" class="form-control">
-                                <option value="">All</option>
-                                <option value="">Phòng đơn</option>
-                                <option value="">Phòng đôi</option>
-                                <option value="">Phòng VIP</option>
-                            </select>
-                        </div>
-                    </div>*@
+               
                 <div class="row">
                     <div class="col-md-3">
                         <label for="date_start">Start Date</label>
@@ -83,8 +73,10 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            
+                  
+
                             <td>
-                             
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.SoP)
@@ -99,9 +91,9 @@
                                 @Html.DisplayFor(modelItem => item.GiaP)
                             </td>
                             <td>
-                                @*@Html.ActionLink("Đặt phòng", "ChonPhong", new { id = @item.ma_phong })*@
+
                                 <button id="btn_@item.MaP" class="btn btn-success" onclick="btnClick(@item.MaP)">Chọn phòng</button>
-                                @*<a href="@Url.Action("ChonPhong","Home", new { id = @item.ma_phong })"><div class="btn btn-success btn-xs" style="padding: 1px 5px;">Đặt phòng</div></a>*@
+
                             </td>
                         </tr>
                     }
